@@ -1,0 +1,14 @@
+# Author: Dominic Contreras
+# Title: Homework 3
+# Class: R Shiny for Operations Management
+# Date: September 27, 2018
+
+```{r setup, include = F}
+require(rgdal)
+require(leaflet)
+require(leaflet.extras)
+require(dplyr)
+require(readxl)
+require(stringr)
+```
+
