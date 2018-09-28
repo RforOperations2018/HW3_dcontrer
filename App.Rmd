@@ -53,7 +53,13 @@ leaflet(data = states.load) %>% #  Create map
   ) %>%
   addLegend(position = "bottomleft", pal = sciencePal,#  Format legend
             values = states.load$pctScience, title = "Percent STEM Degree",
-            labFormat = labelFormat(digits = 1, suffix = "%")) %>%
-  
+            labFormat = labelFormat(digits = 1, suffix = "%"))
+```
+
+```{r}
+# Canada Day Parade Route 2018 - City of Grand Prairie (Line Map)
+leaflet(data =canada) %>% #  Read in Canada data
+  addProviderTiles("OpenStreetMap.BlackAndWhite") %>% # Set basemap
+  addPolylines(color = "#FF0000") # Add + format polylines to Canada red
 ```
 
