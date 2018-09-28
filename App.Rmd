@@ -24,12 +24,36 @@ states.load@data <- merge(states.load@data, scienceDat, # Merge STEM info w/ Sha
                           sort = FALSE, by.x = "GEOID", by.y = "geoid") 
 remove(scienceDat)
 
-# Polyline | Major U.S. Highways
-highways <- readOGR("https://raw.githubusercontent.com/eSlivinski/data-bin/master/spatial/us_highways.geojson")
-
 # Polyline | Canada Day Parade Route
 canada <- readOGR("Canada_Route.geojson")
 
 # Pointfile | Allegheny County Polling Locations
 polling <- read.csv("Allegheny_County_Polling_Place_Locations_November_2015.csv")
 ```
+
+```{r}
+# Percent STEM Degree by Shape (Polygon Map)
+scienceBin <- stats::quantile(states.load$pctScience) #  create bin points for quantiles
+sciencePal <- colorBin(c("#fef0d9","#fdcc8a","#fc8d59", #  set color pallete for map
+                         "#e34a33","#b30000"), 
+                       domain = states.load$pctScience, bins = scienceBin)
+
+leaflet(data = states.load) %>% #  Create map
+  addProviderTiles("Stamen.Watercolor", group = "Watercolor") %>% #  set layers
+  addProviderTiles("OpenStreetMap.BlackAndWhite", group = "Black & White") %>%
+  addProviderTiles("OpenTopoMap", group = "Topography") %>%
+  addLayersControl( #  Layer selector (possible to add title to this box?)
+    baseGroups = c("Watercolor", "Black & White", "Topography"), 
+    options = layersControlOptions(collapsed = FALSE)) %>%
+  addPolygons( #  Create chloropleth
+    fillColor = ~sciencePal(pctScience),
+    weight = 1.5,
+    fillOpacity = 0.7,
+    color = "black"
+  ) %>%
+  addLegend(position = "bottomleft", pal = sciencePal,#  Format legend
+            values = states.load$pctScience, title = "Percent STEM Degree",
+            labFormat = labelFormat(digits = 1, suffix = "%")) %>%
+  
+```
+
