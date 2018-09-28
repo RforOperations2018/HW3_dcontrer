@@ -63,3 +63,12 @@ leaflet(data =canada) %>% #  Read in Canada data
   addPolylines(color = "#FF0000") # Add + format polylines to Canada red
 ```
 
+```{r}
+## Allegheny County Polling Place Locations - November 2015 (Point Map)
+leaflet(data = polling) %>% # Read in polling data
+  addProviderTiles("Stamen.Terrain") %>% #  Set basemap
+  addCircleMarkers(lng = ~X, lat = ~Y, radius = 4, #  Add circle markers 
+                   color = "red", label = polling$LocName) %>%
+  setView(polling$X[8], polling$Y[8], zoom = 15) # Set default zoom  
+```
+
