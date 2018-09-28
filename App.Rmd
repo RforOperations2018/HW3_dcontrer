@@ -12,3 +12,24 @@ require(readxl)
 require(stringr)
 ```
 
+```{r}
+# Shapefile | U.S. States
+states.load <- readOGR("tl_2018_us_state.shp", layer = "tl_2018_us_state", GDAL1_integer64_policy = TRUE)
+
+## Clean U.S. States Data
+states.load$GEOID <- gsub("^0+([1-9])","\\1", states.load$GEOID) #  Remove 0 from '01, 02, etc.
+scienceDat <- read.csv("ACS_17_1YR_S1502_with_ann.csv") #  Read in % STEM info 
+states.load <- states.load[states.load$GEOID %in% scienceDat$geoid,]  #  Remove U.S. territories
+states.load@data <- merge(states.load@data, scienceDat, # Merge STEM info w/ Shapefile info
+                          sort = FALSE, by.x = "GEOID", by.y = "geoid") 
+remove(scienceDat)
+
+# Polyline | Major U.S. Highways
+highways <- readOGR("https://raw.githubusercontent.com/eSlivinski/data-bin/master/spatial/us_highways.geojson")
+
+# Polyline | Canada Day Parade Route
+canada <- readOGR("Canada_Route.geojson")
+
+# Pointfile | Allegheny County Polling Locations
+polling <- read.csv("Allegheny_County_Polling_Place_Locations_November_2015.csv")
+```
