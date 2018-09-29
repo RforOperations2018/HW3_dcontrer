@@ -26,6 +26,7 @@ remove(scienceDat)
 
 # Polyline | Canada Day Parade Route
 canada <- readOGR("Canada_Route.geojson")
+# Just curious what the data source was for this guy?
 
 # Pointfile | Allegheny County Polling Locations
 polling <- read.csv("Allegheny_County_Polling_Place_Locations_November_2015.csv")
@@ -49,7 +50,7 @@ leaflet(data = states.load) %>% #  Create map
     fillColor = ~sciencePal(pctScience),
     weight = 1.5,
     fillOpacity = 0.7,
-    color = "black"
+    color = "black" # Would have liked to see popup or labels on this layer. But that's being nitpicky, isn't it?
   ) %>%
   addLegend(position = "bottomleft", pal = sciencePal,#  Format legend
             values = states.load$pctScience, title = "Percent STEM Degree",
